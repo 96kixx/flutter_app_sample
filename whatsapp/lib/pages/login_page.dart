@@ -23,7 +23,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   onSend() {
     final phoneNumber = phoneNumberController.text;
-    final countryName = countryNameController.text;
     final countryCode = countryCodeController.text;
 
     if (phoneNumber.isEmpty) {
@@ -48,8 +47,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           context: context,
           phoneNumber: '+$countryCode$phoneNumber',
         );
-
-    print(phoneNumber);
   }
 
   onShow() {

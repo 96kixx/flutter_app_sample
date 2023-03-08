@@ -70,7 +70,6 @@ class AuthRepository {
       );
     } on FirebaseAuth catch (error) {
       showAlertDialog(context: context, message: error.toString());
-      print(error.toString());
     }
   }
 }
