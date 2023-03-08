@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/common/extension/custom_theme_extension.dart';
+import 'package:whatsapp/feature/auth/controller/auth_controller.dart';
 import 'package:whatsapp/widgets/custom_icon_button.dart';
 import 'package:whatsapp/widgets/custom_text_field.dart';
 
-class VerficationPage extends StatefulWidget {
-  const VerficationPage({super.key});
+class VerficationPage extends ConsumerWidget {
+  final String smsCodeId;
+  final String phoneNumber;
 
-  @override
-  State<VerficationPage> createState() => _VerficationPageState();
-}
+  const VerficationPage({
+    super.key,
+    required this.smsCodeId,
+    required this.phoneNumber,
+  });
 
-class _VerficationPageState extends State<VerficationPage> {
-  late TextEditingController codeController;
-
-  @override
-  void initState() {
-    codeController = TextEditingController();
-    super.initState();
+  void verifySmsCode(
+    BuildContext context,
+    WidgetRef ref,
+    String smsCode,
+  ) {
+    ref.read(authControllerProvider).verifySmsCode(
+          context: context,
+          smsCodeId: smsCodeId,
+          smsCode: smsCode,
+          mounted: true,
+        );
   }
 
   @override
-  void dispose() {
-    codeController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -77,12 +80,16 @@ class _VerficationPageState extends State<VerficationPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 80),
               child: CustomTextField(
-                  controller: codeController,
-                  hintText: "- - -  - - -",
-                  fontSize: 30,
-                  autoFocus: true,
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {}),
+                hintText: "- - -  - - -",
+                fontSize: 30,
+                autoFocus: true,
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  if (value.length == 6) {
+                    return verifySmsCode(context, ref, value);
+                  }
+                },
+              ),
             ),
             const SizedBox(height: 20),
             Text(
