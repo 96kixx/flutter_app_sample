@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/common/theme/dark_theme.dart';
 import 'package:whatsapp/common/theme/light_theme.dart';
+import 'package:whatsapp/feature/auth/controller/auth_controller.dart';
+import 'package:whatsapp/pages/home_page.dart';
 import 'package:whatsapp/pages/welcome_page.dart';
 import 'package:whatsapp/routes/routes.dart';
+import 'package:whatsapp/common/extension/custom_theme_extension.dart';
 
 import 'firebase_options.dart';
 
@@ -20,18 +23,39 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'WhatsApp',
       theme: lightTheme(),
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
-      home: const WelcomePage(),
+      home: ref.watch(userInfoAuthProvider).when(
+        data: (user) {
+          if (user == null) return const WelcomePage();
+          return const HomePage();
+        },
+        error: (error, trace) {
+          return const Scaffold(
+            body: Center(
+              child: Text("It has problem"),
+            ),
+          );
+        },
+        loading: () {
+          return const Scaffold(
+            body: Center(
+              child: Icon(
+                Icons.whatshot,
+              ),
+            ),
+          );
+        },
+      ),
       onGenerateRoute: Routes.onGenerateRoute,
     );
   }
