@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
         color: bgColor,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 55),
+        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 50),
         child: Text(
           text,
           style: TextStyle(
