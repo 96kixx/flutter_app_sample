@@ -53,7 +53,7 @@ class _WebtoonScreenState extends State<WebtoonScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 50),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -87,14 +87,43 @@ class _WebtoonScreenState extends State<WebtoonScreen> {
             future: webtoon,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(
-                  snapshot.data!.age,
-                  style: const TextStyle(
-                    fontSize: 18,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        snapshot.data!.about,
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "${snapshot.data!.genre} / ${snapshot.data!.age}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }
               return const Text("...");
+            },
+          ),
+          const SizedBox(height: 25),
+          FutureBuilder(
+            future: episodes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  children: [
+                    for (var episode in snapshot.data!) Text(episode.title)
+                  ],
+                );
+              }
+              return Container();
             },
           ),
         ],

@@ -3,7 +3,7 @@ class DetailModel {
 
   DetailModel.fromJson(Map<String, dynamic> json)
       : title = json["title"],
-        about = json['about'],
+        about = json["about"],
         genre = json["genre"],
-        age = json["aage"];
+        age = json["age"];
 }
