@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/models/detail_model.dart';
+import 'package:toonflix/models/episode_model.dart';
+import 'package:toonflix/services/api_service.dart';
 
-class WebtoonScreen extends StatelessWidget {
+class WebtoonScreen extends StatefulWidget {
   final String title, thumb, id;
 
   const WebtoonScreen({
@@ -9,6 +12,21 @@ class WebtoonScreen extends StatelessWidget {
     required this.thumb,
     required this.id,
   });
+
+  @override
+  State<WebtoonScreen> createState() => _WebtoonScreenState();
+}
+
+class _WebtoonScreenState extends State<WebtoonScreen> {
+  late Future<DetailModel> webtoon;
+  late Future<List<EpisodeModel>> episodes;
+
+  @override
+  void initState() {
+    super.initState();
+    webtoon = ApiService.getToonById(widget.id);
+    episodes = ApiService.getEpisodeById(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +44,7 @@ class WebtoonScreen extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          title,
+          widget.title,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -40,7 +58,7 @@ class WebtoonScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Hero(
-                tag: id,
+                tag: widget.id,
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -54,7 +72,7 @@ class WebtoonScreen extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   width: 250,
                   child: Image.network(
-                    thumb,
+                    widget.thumb,
                     headers: const {
                       "User-Agent":
                           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
@@ -63,6 +81,21 @@ class WebtoonScreen extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 25),
+          FutureBuilder(
+            future: webtoon,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(
+                  snapshot.data!.age,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                );
+              }
+              return const Text("...");
+            },
           ),
         ],
       ),
