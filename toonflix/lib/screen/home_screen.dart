@@ -13,15 +13,14 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.green,
         centerTitle: true,
         elevation: 1,
         title: const Text(
           "Toonflix",
           style: TextStyle(
-            color: Colors.green,
+            color: Colors.white,
             fontSize: 25,
-            fontWeight: FontWeight.w600,
           ),
         ),
       ),

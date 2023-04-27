@@ -15,13 +15,20 @@ class WebtoonScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
+        backgroundColor: Colors.green,
         elevation: 1,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+          color: Colors.white,
+        ),
+        centerTitle: true,
         title: Text(
           title,
           style: const TextStyle(
-            color: Colors.green,
+            color: Colors.white,
             fontSize: 20,
           ),
         ),
