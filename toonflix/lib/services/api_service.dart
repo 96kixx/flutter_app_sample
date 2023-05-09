@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:toonflix/models/detail_model.dart';
 import 'package:toonflix/models/episode_model.dart';
