@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wechat/api/api.dart';
 import 'package:wechat/screen/home_screen.dart';
@@ -16,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration(seconds: 2), () {
       if (WechatApi.auth.currentUser != null) {
-        print("user: ${WechatApi.auth.currentUser}");
+        log("user: ${WechatApi.auth.currentUser}");
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
       } else {

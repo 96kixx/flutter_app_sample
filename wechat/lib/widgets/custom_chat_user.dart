@@ -1,9 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wechat/models/user_model.dart';
 
-class CustomUserChat extends StatelessWidget {
-  const CustomUserChat({super.key});
+class CustomUserChat extends StatefulWidget {
+  final UserModel user;
+  const CustomUserChat({
+    super.key,
+    required this.user,
+  });
 
+  @override
+  State<CustomUserChat> createState() => _CustomUserChatState();
+}
+
+class _CustomUserChatState extends State<CustomUserChat> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -14,10 +23,10 @@ class CustomUserChat extends StatelessWidget {
         onTap: () {},
         child: ListTile(
           leading: CircleAvatar(
-            child: Icon(CupertinoIcons.person),
+            child: Image.network(widget.user.image),
           ),
-          title: Text("테스트 유저"),
-          subtitle: Text("Last user message", maxLines: 1),
+          title: Text(widget.user.displayName),
+          subtitle: Text(widget.user.about, maxLines: 1),
           trailing: Text(
             "1시간 전",
             style: TextStyle(color: Colors.black54),

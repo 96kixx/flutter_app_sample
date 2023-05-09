@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -20,8 +22,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     signInWithGoogle().then((user) {
       Navigator.pop(context);
       if (user != null) {
-        print('\nUser: ${user.user}');
-        print('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+        log('\nUser: ${user.user}');
+        log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
       }
@@ -46,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       // Once signed in, return the UserCredential
       return await WechatApi.auth.signInWithCredential(credential);
     } catch (error) {
-      print("result: $error");
+      log("result: $error");
       Dialogs.showSnackBar(context, "It has error, check again");
       return null;
     }
