@@ -1,8 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wechat/screen/home_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wechat/helper/dialogs.dart';
 
-class WelcomeScreen extends StatelessWidget {
+import 'home_screen.dart';
+
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  googleLoginHandler() {
+    Dialogs.showProgressBar(context);
+
+    signInWithGoogle().then((user) {
+      Navigator.pop(context);
+      if (user != null) {
+        print('\nUser: ${user.user}');
+        print('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      }
+    });
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (error) {
+      print("result: $error");
+      Dialogs.showSnackBar(context, "It has error, check again");
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +84,7 @@ class WelcomeScreen extends StatelessWidget {
               flex: 1,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  googleLoginHandler();
                 },
                 icon: Icon(
                   Icons.login,

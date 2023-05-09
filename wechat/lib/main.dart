@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:wechat/screen/welcome_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:wechat/firebase_options.dart';
+import 'package:wechat/screen/splash_screen.dart';
 
-void main() {
+late Size mq;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // 화면회전 안되게 고정
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  // 상단 상태 바 감추기(full-screen)
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  // );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -20,7 +33,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
       ),
-      home: WelcomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
