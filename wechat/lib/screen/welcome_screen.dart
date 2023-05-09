@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wechat/api/api.dart';
 import 'package:wechat/helper/dialogs.dart';
 
 import 'home_screen.dart';
@@ -43,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       );
 
       // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      return await WechatApi.auth.signInWithCredential(credential);
     } catch (error) {
       print("result: $error");
       Dialogs.showSnackBar(context, "It has error, check again");

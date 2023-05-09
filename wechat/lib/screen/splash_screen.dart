@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wechat/api/api.dart';
 import 'package:wechat/screen/home_screen.dart';
 import 'package:wechat/screen/welcome_screen.dart';
 
@@ -14,26 +14,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(
-      Duration(seconds: 2),
-      () {
-        if (FirebaseAuth.instance.currentUser != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => HomeScreen(),
-            ),
-          );
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => WelcomeScreen(),
-            ),
-          );
-        }
-      },
-    );
+    Future.delayed(Duration(seconds: 2), () {
+      if (WechatApi.auth.currentUser != null) {
+        print("user: ${WechatApi.auth.currentUser}");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => WelcomeScreen()));
+      }
+    });
   }
 
   @override
@@ -44,15 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70),
+              padding: const EdgeInsets.symmetric(horizontal: 150),
               child: Image.asset("assets/images/messenger.png"),
             ),
             SizedBox(height: 20),
             Text(
               'WeChat',
               style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
           ],
